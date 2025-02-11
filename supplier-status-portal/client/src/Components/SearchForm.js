@@ -205,11 +205,7 @@ const SearchForm = ({ onSearch }) => {
               <Switch checked={isSwitchOn} onChange={handleToggle} />
               <h3 style={{ marginLeft: 8 }}>Show All Invoices</h3>
               {/* Download button */}
-              <Button type="dashed"
-                      
-
-                onClick={handleDownload}
-                style={{ marginLeft: 10 }}>Download</Button>
+              <Button type="primary" onClick={handleDownload} style={{ marginLeft: 10 }}>Download</Button>
             </Row>
           </Col>
         </Row>
