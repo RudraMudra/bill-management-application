@@ -5,7 +5,7 @@ import { MailOutlined } from '@ant-design/icons';
 const SupplierTable = ({ suppliers, isVisible }) => {
   const handleGmailClick = (record) => {
     const { Email, Name, Country, State, Bill_Id, Vendor_Id, Bill_Date, Bill_Amount, Bill_Status } = record;
-    const subject = `Details for Bill ID: ${Bill_Id}`;
+    const subject = `Details for vendor ID: ${Vendor_Id}`;
     const body = `
           Name: ${Name}
           Country: ${Country}
@@ -28,7 +28,9 @@ const SupplierTable = ({ suppliers, isVisible }) => {
 
   const columns = [
     { title: 'ID', dataIndex: '_Id', key: '_Id' },
-    { title: 'Name', dataIndex: 'Name', key: 'Name' },
+    { title: 'Name', dataIndex: 'Name', key: 'Name',
+      sorter: (a, b) => a.Name.localeCompare(b.Name), // Sorting function for Name
+     },
     { title: 'Email', dataIndex: 'Email', key: 'Email' },
     { title: 'State', dataIndex: 'State', key: 'State' },
     { title: 'Country', dataIndex: 'Country', key: 'Country' },
@@ -41,8 +43,12 @@ const SupplierTable = ({ suppliers, isVisible }) => {
         month: "long",
         day: "numeric",
       }),
+      sorter : (a, b) => new Date(a.Bill_Date) - new Date(b.Bill_Date), // Sorting function for Bill Date
     },
-    { title: 'Bill Amount', dataIndex: 'Bill_Amount', key: 'Bill_Amount' },
+    {
+      title: 'Bill Amount', dataIndex: 'Bill_Amount', key: 'Bill_Amount',
+      sorter: (a, b) => a.Bill_Amount - b.Bill_Amount, // Sorting function for Bill Amount
+    },
     { title: 'Bill Status', dataIndex: 'Bill_Status', key: 'Bill_Status' },
     {
       title: 'Actions', key: 'actions', render: (_, record) => (

@@ -5,6 +5,7 @@ import SupplierTable from './SupplierTable';
 import { Spin } from 'antd';
 import { notification } from 'antd';
 import { useCallback } from 'react';
+import * as XLSX from 'xlsx';
 
 const { Option } = Select;
 
@@ -117,6 +118,15 @@ const SearchForm = ({ onSearch }) => {
     }
   }, [supplierData, vendorData, isSwitchOn]);
 
+  // handle the download action when the user clicks the Download button
+  const handleDownload = async () => {
+    const dataToExport = isSwitchOn ? vendorData : supplierData;
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Invoices');
+    XLSX.writeFile(workbook, 'invoices.xlsx');
+  }
+
   return (
     <div>
       {/* Search Form */}
@@ -146,7 +156,7 @@ const SearchForm = ({ onSearch }) => {
           </Col>
           <Col style={{ marginLeft: 10 }}>
             {/* Reset button */}
-            <Button onClick={handleReset} disabled={loading}>Reset</Button>
+            <Button onClick={handleReset} disabled={loading}  >Reset</Button>
           </Col>
         </Row>
       </Form>
@@ -194,6 +204,12 @@ const SearchForm = ({ onSearch }) => {
               {/* Toggle switch for vendor invoices */}
               <Switch checked={isSwitchOn} onChange={handleToggle} />
               <h3 style={{ marginLeft: 8 }}>Show All Invoices</h3>
+              {/* Download button */}
+              <Button type="dashed"
+                      
+
+                onClick={handleDownload}
+                style={{ marginLeft: 10 }}>Download</Button>
             </Row>
           </Col>
         </Row>

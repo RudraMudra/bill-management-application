@@ -25,7 +25,7 @@ const App = () => {
     <Layout>
       <Header style={{ color: '#fff', textAlign: 'center' }}>
         <Title level={3} style={{ color: '#fff', margin: 0 }}>
-          Invoice Management Application
+          Bill Status Application
         </Title>
       </Header>
       <Content style={{ padding: '24px', minHeight: '80vh' }}>
@@ -33,7 +33,7 @@ const App = () => {
         <SupplierTable suppliers={suppliers} />
       </Content>
       <Footer style={{ textAlign: 'center' }}>
-        Invoice Management Application ©2025 Created with Ant Design
+        Bill Status Application ©2025 Created with Ant Design
       </Footer>
     </Layout>
   );
