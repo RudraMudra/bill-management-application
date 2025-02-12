@@ -28,9 +28,10 @@ const SupplierTable = ({ suppliers, isVisible }) => {
 
   const columns = [
     { title: 'ID', dataIndex: '_Id', key: '_Id' },
-    { title: 'Name', dataIndex: 'Name', key: 'Name',
+    {
+      title: 'Name', dataIndex: 'Name', key: 'Name',
       sorter: (a, b) => a.Name.localeCompare(b.Name), // Sorting function for Name
-     },
+    },
     { title: 'Email', dataIndex: 'Email', key: 'Email' },
     { title: 'State', dataIndex: 'State', key: 'State' },
     { title: 'Country', dataIndex: 'Country', key: 'Country' },
@@ -43,7 +44,7 @@ const SupplierTable = ({ suppliers, isVisible }) => {
         month: "long",
         day: "numeric",
       }),
-      sorter : (a, b) => new Date(a.Bill_Date) - new Date(b.Bill_Date), // Sorting function for Bill Date
+      sorter: (a, b) => new Date(a.Bill_Date) - new Date(b.Bill_Date), // Sorting function for Bill Date
     },
     {
       title: 'Bill Amount', dataIndex: 'Bill_Amount', key: 'Bill_Amount',
