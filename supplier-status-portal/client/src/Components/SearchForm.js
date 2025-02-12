@@ -7,6 +7,7 @@ import { useCallback } from 'react';
 import * as XLSX from 'xlsx';
 import { Pie } from 'react-chartjs-2';
 import 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 const { Option } = Select;
 
@@ -155,6 +156,22 @@ const SearchForm = ({ onSearch }) => {
 
   const chartData = processChartData(filteredData);
 
+  const chartOptions = {
+    plugins: {
+      datalabels: {
+        formatter: (value, context) => {
+          const total = context.chart.data.datasets[0].data.reduce((acc, val) => acc + val, 0);
+          const percentage = ((value / total) * 100).toFixed(2) + '%';
+          return percentage;
+        },
+        color : '#fff',
+        font: {
+          weight: 'bold',
+        },
+      },
+    },
+  };
+
   return (
     <div>
       {/* Search Form */}
@@ -240,7 +257,7 @@ const SearchForm = ({ onSearch }) => {
         {showChart ? (
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <div style={{ width: '30%', height: '30%' }}>
-              <Pie data={chartData} />
+              <Pie data={chartData} options={chartOptions} plugins={[ChartDataLabels]} />
             </div>
           </div>
         ) : (

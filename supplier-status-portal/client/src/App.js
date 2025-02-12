@@ -32,7 +32,7 @@ const App = () => {
         <SearchForm onSearch={handleSearch} />
         <SupplierTable suppliers={suppliers} />
       </Content>
-      <Footer style={{ textAlign: 'center' }}>
+      <Footer style={{ textAlign: 'center', backgroundColor: '#001529', color: '#fff' }}>
         Bill Status Application ©2025 Created with Ant Design
       </Footer>
     </Layout>
