@@ -4,7 +4,7 @@ const db = require('../DB/DB');
 
 router.get('/api/suppliers/:VendorId', (req, res) => {
     const { VendorId } = req.params;
-    const sanitizedVendorId = VendorId.trim(); // Remove any extra spaces or newline characters
+    const sanitizedVendorId = VendorId.trim();
 
     db.query('SELECT * FROM suppliers WHERE Vendor_Id = ?', [sanitizedVendorId], (err, result) => {
         if (err) {
