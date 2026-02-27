@@ -4,31 +4,36 @@ const { configDotenv } = require('dotenv');
 const session = require('express-session');
 
 const newRoutes = require('./routes/newRoutes');
-const filterRoutes = require('./routes/filterRoutes')
+const filterRoutes = require('./routes/filterRoutes');
 // const supplierRoutes = require('./routes/supplierRoutes');
 // const authRoutes = require('./routes/authRoutes');
 
 configDotenv();
 
 const app = express();
-app.use(cors({origin: 'http://localhost:3000', credentials: true}));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 
 app.use(
   session({
-      secret: "your-secret-key",
-      resave: false,
-      saveUninitialized: true,
+    secret: process.env.SESSION_SECRET || 'development-secret',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production',
+    },
   })
 );
 
 // Use the supplier routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api", supplierRoutes);
+// app.use('/api/auth', authRoutes);
+// app.use('/api', supplierRoutes);
 app.use(filterRoutes);
 app.use(newRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

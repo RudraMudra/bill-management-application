@@ -38,33 +38,24 @@ const SearchForm = ({ onSearch }) => {
     try {
       setLoading(true); // Set loading state to true
       const values = await form.validateFields(); // Validate the form fields
-      onSearch(values); // Trigger parent-provided search handler
+      const data = await onSearch(values); // Trigger parent-provided search handler
 
-      // Fetch supplier data based on search parameters
-      const response = await axios.get(`http://localhost:5000/api/suppliers`, {
-        params: {
-          Bill_Id: values.billId,
-          Bill_Date: values.billDate,
-          Bill_Amount: values.billAmount,
-        },
-      });
-
-      if (response.data.length === 0) {
+      if (data.length === 0) {
         notification.error({
           message: 'No data found',
           description: 'No supplier data found for the given search parameters',
         });
       }
 
-      setSupplierData(response.data);  // Set supplier data from the response
-      setFilteredData(response.data); // Initialize filtered data
+      setSupplierData(data);  // Set supplier data from the response
+      setFilteredData(data); // Initialize filtered data
 
       // Set vendor ID if data is available
-      if (response.data.length > 0) {
-        setVendorId(response.data[0].Vendor_Id);
+      if (data.length > 0) {
+        setVendorId(data[0].Vendor_Id);
         notification.success({
           message: 'Data Found',
-          description: `Found ${response.data.length} records`,
+          description: `Found ${data.length} records`,
         });
       } else {
         setVendorId(null);
