@@ -1,22 +1,21 @@
 import axios from 'axios';
 import { format } from 'date-fns';
 
-export const fetchSuppliers = async (queryParams) => {
-  let url = 'http://localhost:5000/api/suppliers?';
-  if (queryParams.billId) url += `Bill_Id=${queryParams.billId}&`;
-  if (queryParams.billDate) url += `Bill_Date=${queryParams.billDate}&`;
-  if (queryParams.billAmount) url += `Bill_Amount=${queryParams.billAmount}&`;
-  url = url.slice(0, -1);
+const API_BASE_URL = 'http://localhost:5000/api/suppliers';
 
-  const response = await axios.get(url);
-  
-  // Format the date if it exists
-  const formattedData = response.data.map((supplier) => {
-    if (supplier.Bill_Date) {
-      supplier.Bill_Date = format(new Date(supplier.Bill_Date), 'yyyy-MM-dd'); // Format the date
-    }
-    return supplier;
-  });
+export const fetchSuppliers = async (queryParams = {}) => {
+  const params = {};
 
-  return formattedData;
+  if (queryParams.billId) params.Bill_Id = queryParams.billId;
+  if (queryParams.billDate) params.Bill_Date = queryParams.billDate;
+  if (queryParams.billAmount) params.Bill_Amount = queryParams.billAmount;
+
+  const response = await axios.get(API_BASE_URL, { params });
+
+  return response.data.map((supplier) => ({
+    ...supplier,
+    Bill_Date: supplier.Bill_Date
+      ? format(new Date(supplier.Bill_Date), 'yyyy-MM-dd')
+      : supplier.Bill_Date,
+  }));
 };

@@ -15,9 +15,11 @@ const App = () => {
     try {
       const data = await fetchSuppliers(queryParams);
       setSuppliers(data);
+      return data;
     } catch (error) {
       message.error('Error fetching supplier data');
       console.error(error);
+      throw error;
     }
   };
 
